@@ -1,11 +1,15 @@
 <?php
 
-//Podemos herdar de classes já padrões do PHP, como o próprio PDO, assim nossa classe terá todos os métodos públicos fornecidos por ela. Como execute(), bindParam() e assim por diante...
+/* Podemos herdar de classes já padrões do PHP, como o próprio PDO, assim nossa classe terá todos os métodos públicos fornecidos por ela. 
+Como execute(), bindParam() e assim por diante... */
 class Sql extends PDO 
 {
     private $conexao;
 
-    //Poderiamos passar parâmetros no construtor e assim ter um login e senha que serão informados na criação de um objeto apartir desta classe Sql. Neste exemplo não será necessário já que iremos usar apenas um servidor de conexão
+    /* Poderiamos passar parâmetros no construtor e assim ter  um login
+     e senha que serão informados na criação de um objeto apartir desta 
+     classe Sql.Neste exemplo não será necessário já que iremos usar 
+     apenas um servidor de conexão */
     public function __construct()
     {
         $this->conexao = new PDO("mysql:host=localhost; dbname=dbphp7", "root", "");
