@@ -44,16 +44,24 @@ echo $usuario; */
 // ========== Inserindo novos registros ============
 /* Inserindo dados no banco e dando um select utilizando
 procedures */ 
+
 /*
 $aluno = new Usuarios("Antonio", "478");
 $aluno->inserir();
 echo $aluno; */
 
 // =========== Update os registros ===========
+/*
 $usuario = new Usuarios();
 $usuario->loadById(2);
 $usuario->update("Dyana", "Pipoca");
-echo $usuario;
+echo $usuario; */
+
+/*
+// ============= Deletando os registros ==========
+$usuario = new Usuarios();
+$usuario->loadById(3);
+$usuario->delete(); */
 
 
 
