@@ -8,6 +8,14 @@ class Usuarios
     private $dessenha;
     private $datacadastro;
 
+    //Construtor
+    public function __construct($login = "", $senha = "")
+    {
+        $this->setDeslogin($login);
+        $this->setDessenha($senha);
+    }
+
+
     //Carregando por ID
     public function loadById($id)
     {
@@ -23,10 +31,7 @@ class Usuarios
         {
             //Como o resultado é um array de arrays, logo setamos nossos atributos
             $registro = $resultado[0];
-            $this->setIdusuario($registro['idusuario']);
-            $this->setDeslogin($registro['deslogin']);
-            $this->setDessenha($registro['dessenha']);
-            $this->setDatacadastro(new DateTime($registro['datacadastro']));
+            $this->setRegistro($registro);
         }
     }
 
@@ -58,17 +63,57 @@ class Usuarios
 
         if((count($resultado) > 0))
         {
-
             $registro = $resultado[0];
-            $this->setIdusuario($registro['idusuario']);
-            $this->setDeslogin($registro['deslogin']);
-            $this->setDessenha($registro['dessenha']);
-            $this->setDatacadastro(new DateTime($registro['datacadastro']));
+            $this->setRegistro($resultado[0]);
         } else 
         {
             throw new Exception("Erro de Autenticação. Login e/ou senha inválidos");
         }      
     }
+
+    //Inserindo dados
+    public function inserir()
+    {
+
+        $sql = new Sql();
+        $resultado = $sql->select("CALL sp_usuarios_insert(:LOGINN, :SENHA)", array(
+            ":LOGINN"=>$this->getDeslogin(),
+            ":SENHA"=>$this->getDessenha()
+        ));
+
+        if(isset($resultado[0]))
+        {
+            $registro = $resultado[0];
+            $this->setRegistro($registro);
+        }
+    }
+
+    //Método para atualizar os atributos de nossa classe usuário
+    public function setRegistro($registro)
+    {
+        $this->setIdusuario($registro['idusuario']);
+        $this->setDeslogin($registro['deslogin']);
+        $this->setDessenha($registro['dessenha']);
+        $this->setDatacadastro(new DateTime($registro['datacadastro']));  
+    }
+
+    //Update
+    public function update($login, $senha)
+    {
+
+        $this->setDeslogin($login);
+        $this->setDessenha($senha);
+
+        $sql = new Sql();
+
+        $sql->query("UPDATE tb_usuarios SET deslogin = :LOGINN , dessenha = :SENHA WHERE idusuario = :ID", array(
+            ':ID'=>$this->getIdusuario(),
+            ':LOGINN'=>$this->getDeslogin(),
+            ':SENHA'=>$this->getDessenha()
+        ));
+    }
+
+
 
     public function __toString()
     {
