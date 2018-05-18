@@ -30,6 +30,46 @@ class Usuarios
         }
     }
 
+    //Carregar por lista. Não usamos o $this neste método, portanto ele pode ser um método estático. O que torna um método estático poderoso, podendo ser chamado dentro e fora da classe sem instanciar.
+    public static function getLista()
+    {
+        $sql = new Sql();
+        return $sql->select("SELECT * FROM tb_usuarios ORDER BY deslogin");
+    }
+
+    //Pesquisar por nome
+    public static function pesquisar($login)
+    {
+        $sql = new  Sql();
+        return $sql->select("SELECT * FROM tb_usuarios WHERE deslogin LIKE :SEARCH ORDER BY deslogin", array(
+            ":SEARCH"=>"%".$login."%"
+        ));
+    }
+
+    //Fazer Login do usuário
+    public function login($login, $senha)
+    {
+        $sql = new Sql();
+
+        $resultado = $sql->select("SELECT * FROM tb_usuarios WHERE deslogin = :LOGINN AND dessenha = :SENHA", array(
+            ":LOGINN"=>$login,
+            ":SENHA"=>$senha
+        ));
+
+        if((count($resultado) > 0))
+        {
+
+            $registro = $resultado[0];
+            $this->setIdusuario($registro['idusuario']);
+            $this->setDeslogin($registro['deslogin']);
+            $this->setDessenha($registro['dessenha']);
+            $this->setDatacadastro(new DateTime($registro['datacadastro']));
+        } else 
+        {
+            throw new Exception("Erro de Autenticação. Login e/ou senha inválidos");
+        }      
+    }
+
     public function __toString()
     {
         return json_encode(array(

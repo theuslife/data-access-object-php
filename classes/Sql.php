@@ -43,7 +43,6 @@ class Sql extends PDO
         $stmt = $this->query($querySQL, $parametros);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
 }
 
 ?>
