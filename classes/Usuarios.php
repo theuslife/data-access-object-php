@@ -35,7 +35,10 @@ class Usuarios
         }
     }
 
-    //Carregar por lista. Não usamos o $this neste método, portanto ele pode ser um método estático. O que torna um método estático poderoso, podendo ser chamado dentro e fora da classe sem instanciar.
+    /*
+        Carregar por lista. Não usamos o $this neste método, portanto ele pode ser um método estático. 
+        O que torna um método estático poderoso, podendo ser chamado dentro e fora da classe sem instanciar.
+    */
     public static function getLista()
     {
         $sql = new Sql();
